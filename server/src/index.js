@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 // api config
 dotenv.config();
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3001;
 // middleware
 
 app.use(express.json());
+app.use(cors());
 
 // db config
 
