@@ -1,25 +1,94 @@
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
+import axios from "axios";
 import { useState } from "react";
 
 export default function RegisterScreen({ navigation }) {
   const [isFirstTimer, setIsFirstTimer] = useState(true);
   const [pin, setPin] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+
+  const handeSubmit = () => {
+    axios
+      .post("https://euirms-production.up.railway.app/api/users/register", {
+        firstName,
+        lastName,
+        mobile,
+        email,
+        address,
+        city,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <View style={styles.container}>
       {isFirstTimer ? (
         <>
           <Text>RegisterScreen</Text>
-          <TextInput placeholder="First Name" style={styles.input} />
-          <TextInput placeholder="Last Name" style={styles.input} />
-          <TextInput placeholder="Mobile no." style={styles.input} />
-          <TextInput placeholder="Email" style={styles.input} />
-          <TextInput placeholder="Address" style={styles.input} />
-          <TextInput placeholder="City" style={styles.input} />
+          <TextInput
+            placeholder="First Name"
+            style={styles.input}
+            value={firstName}
+            onChangeText={(text) => {
+              setFirstName(text);
+            }}
+          />
+          <TextInput
+            placeholder="Last Name"
+            style={styles.input}
+            value={lastName}
+            onChangeText={(text) => {
+              setLastName(text);
+            }}
+          />
+          <TextInput
+            placeholder="Mobile no."
+            style={styles.input}
+            value={mobile}
+            keyboardType="phone-pad"
+            onChangeText={(text) => {
+              setMobile(text);
+            }}
+          />
+          <TextInput
+            placeholder="Email"
+            style={styles.input}
+            value={email}
+            onChangeText={(text) => {
+              setEmail(text);
+            }}
+          />
+          <TextInput
+            placeholder="Address"
+            style={styles.input}
+            value={address}
+            onChangeText={(text) => {
+              setAddress(text);
+            }}
+          />
+          <TextInput
+            placeholder="City"
+            style={styles.input}
+            value={city}
+            onChangeText={(text) => {
+              setCity(text);
+            }}
+          />
           <Button
             title="Register"
             onPress={() => {
+              handeSubmit();
               setIsFirstTimer(false);
             }}
           />
@@ -32,9 +101,11 @@ export default function RegisterScreen({ navigation }) {
             style={styles.input}
             maxLength={4}
             keyboardType="numeric"
-            value={pin}
             onChangeText={(text) => {
-              setPin(text);
+              //convert string to array
+              const pinArray = text.split("");
+
+              setPin(pinArray);
             }}
           />
           <Button
