@@ -71,6 +71,7 @@ export default function RegisterScreen({ navigation }) {
           <TextInput
             placeholder="Mobile no."
             style={styles.input}
+            textContentType="telephoneNumber"
             value={mobile}
             keyboardType="phone-pad"
             onChangeText={(text) => {
@@ -80,6 +81,7 @@ export default function RegisterScreen({ navigation }) {
           <TextInput
             placeholder="Email"
             style={styles.input}
+            textContentType="emailAddress"
             value={email}
             onChangeText={(text) => {
               setEmail(text);

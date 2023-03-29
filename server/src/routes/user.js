@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const mailer = require("../mailer");
 const User = require("../models/user");
 const Verify = require("../models/verify");
 
@@ -32,6 +33,17 @@ router.post("/register", async (req, res) => {
       pin: arrayOfRandomNumbers,
     });
     await verify.save();
+    mailer(
+      process.env.EMAIL,
+      savedUser.email,
+      "VerificationCode",
+      {
+        name: savedUser.firstName,
+        pin: arrayOfRandomNumbers.join(""),
+      },
+      process.env.EMAIL,
+      process.env.PASSWORD
+    )
     res.json(savedUser);
   } catch (err) {
     res.json({ message: err });
