@@ -3,6 +3,21 @@ const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
 
 async function mailer(from, to, template, data, user, pass) {
+  console.log("email started");
+  console.log(
+    "from: " +
+      from +
+      " to: " +
+      to +
+      " template: " +
+      template +
+      " data: " +
+      data +
+      " user: " +
+      user +
+      " pass: " +
+      pass
+  );
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
