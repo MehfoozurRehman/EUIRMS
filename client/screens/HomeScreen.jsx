@@ -3,7 +3,15 @@ import { Button, StyleSheet, Text, View } from "react-native";
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>HomeScreen</Text>
+      <Text
+        style={{
+          fontSize: 25,
+          fontWeight: "bold",
+          marginBottom: 20,
+        }}
+      >
+        Welcome to EUIRMS
+      </Text>
       <Button
         title="Register"
         onPress={() => {
