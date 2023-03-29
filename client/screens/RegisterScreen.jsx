@@ -25,8 +25,12 @@ export default function RegisterScreen({ navigation }) {
         city,
       })
       .then((res) => {
-        console.log(res.data);
         setUserId(res.data._id);
+        if (res.data?.message?.code === 11000) {
+          alert("User already exists");
+        } else {
+          setIsFirstTimer(false);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -40,7 +44,11 @@ export default function RegisterScreen({ navigation }) {
         pin,
       })
       .then((res) => {
-        console.log(res.data);
+        if (res.data === "not verified") {
+          alert("Wrong pin");
+        } else {
+          navigation.replace("Dashboard");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -103,13 +111,7 @@ export default function RegisterScreen({ navigation }) {
               setCity(text);
             }}
           />
-          <Button
-            title="Register"
-            onPress={() => {
-              handeSubmit();
-              setIsFirstTimer(false);
-            }}
-          />
+          <Button title="Register" onPress={handeSubmit} />
         </>
       ) : (
         <>
@@ -120,21 +122,15 @@ export default function RegisterScreen({ navigation }) {
             maxLength={4}
             keyboardType="numeric"
             onChangeText={(text) => {
-              const pinArray = text.split("");
+              let pinArray = text.split("");
+              pinArray = pinArray.map((item) => parseInt(item));
               setPin(pinArray);
             }}
           />
           <Button
             title="Verify"
-            onPress={() => {
-              if (pin.length !== 4) {
-                console.log("Invalid Pin");
-                return;
-              } else {
-                handleVerify();
-                navigation.replace("Dashboard");
-              }
-            }}
+            disabled={pin.length < 4}
+            onPress={handleVerify}
           />
         </>
       )}
