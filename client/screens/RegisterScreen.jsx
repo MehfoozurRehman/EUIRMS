@@ -12,6 +12,7 @@ export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
+  const [userId, setUserId] = useState("");
 
   const handeSubmit = () => {
     axios
@@ -22,6 +23,21 @@ export default function RegisterScreen({ navigation }) {
         email,
         address,
         city,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setUserId(res.data._id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleVerify = () => {
+    axios
+      .post("https://euirms-production.up.railway.app/api/users/verify", {
+        userId,
+        pin,
       })
       .then((res) => {
         console.log(res.data);
@@ -102,9 +118,7 @@ export default function RegisterScreen({ navigation }) {
             maxLength={4}
             keyboardType="numeric"
             onChangeText={(text) => {
-              //convert string to array
               const pinArray = text.split("");
-
               setPin(pinArray);
             }}
           />
@@ -114,8 +128,10 @@ export default function RegisterScreen({ navigation }) {
               if (pin.length !== 4) {
                 console.log("Invalid Pin");
                 return;
+              } else {
+                handleVerify();
+                navigation.replace("Dashboard");
               }
-              navigation.replace("Dashboard");
             }}
           />
         </>
