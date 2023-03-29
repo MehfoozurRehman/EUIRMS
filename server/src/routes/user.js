@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
         pin: arrayOfRandomNumbers.join(""),
       },
       process.env.EMAIL,
-      process.env.PASSWORD
+      process.env.PASS
     )
     res.json(savedUser);
   } catch (err) {
